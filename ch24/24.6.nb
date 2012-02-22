@@ -1,0 +1,114 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      3096,        104]
+NotebookOptionsPosition[      2842,         91]
+NotebookOutlinePosition[      3185,        106]
+CellTagsIndexPosition[      3142,        103]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"doutlow", "=", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"x1", "=", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"Log", "[", 
+          RowBox[{"S0", "/", "H"}], "]"}], 
+         RowBox[{"\[Sigma]", " ", 
+          SqrtBox["t"]}]], "+", 
+        RowBox[{"\[Lambda]", " ", "\[Sigma]", " ", 
+         SqrtBox["t"]}]}]}], ",", 
+      RowBox[{"y1", "=", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"Log", "[", 
+          RowBox[{"H", "/", "S0"}], "]"}], 
+         RowBox[{"\[Sigma]", " ", 
+          SqrtBox["t"]}]], "+", 
+        RowBox[{"\[Lambda]", " ", "\[Sigma]", " ", 
+         SqrtBox["t"]}]}]}]}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"S0", "*", 
+      RowBox[{"PDF", "[", 
+       RowBox[{
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", "1"}], "]"}], ",", "x1"}], " ", "]"}], "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", "q"}], "*", "t"}], "]"}]}], "-", 
+     RowBox[{"K", "*", 
+      RowBox[{"PDF", "[", 
+       RowBox[{
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", "1"}], "]"}], ",", 
+        RowBox[{"x1", "-", 
+         RowBox[{"\[Sigma]", " ", 
+          SqrtBox["t"]}]}]}], "]"}]}], "-", 
+     RowBox[{"S0", "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", "q"}], "*", "t"}], "]"}], "*", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"H", "/", "S0"}], ")"}], 
+       RowBox[{"2", "\[Lambda]"}]], "*", 
+      RowBox[{"PDF", "[", 
+       RowBox[{
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", "1"}], "]"}], ",", "y1"}], "]"}]}], "+", 
+     RowBox[{"K", "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", "r"}], "*", "t"}], "]"}], "*", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"H", "/", "S0"}], ")"}], 
+       RowBox[{"2", "\[Lambda]"}]], "*", 
+      RowBox[{"PDF", "[", 
+       RowBox[{
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", "1"}], "]"}], ",", 
+        RowBox[{"y1", "-", 
+         RowBox[{"\[Sigma]", " ", 
+          SqrtBox["t"]}]}]}], "]"}]}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5379655851726093`*^9, 3.5379656917987967`*^9}, {
+  3.5379657478652954`*^9, 3.537965910464381*^9}}]
+},
+WindowSize->{607, 547},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (November 10, 2008)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 2293, 69, 150, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

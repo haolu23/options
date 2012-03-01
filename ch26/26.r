@@ -49,14 +49,17 @@ flookback<-function(americanOrEuro,putOrCall) {
     #putOrCall='put';
     intrinsicpricer=switch(putOrCall,put=function(stock,strike) pmax(strike-stock,0),
                            call=function(stock,strike) pmax(stock-strike,0));
-    selector=switch(putOrCall,put=max, call=min);
+    selector=switch(putOrCall,put=pmax, call=pmin);
     merger=switch(putOrCall,put=function(a,b) a>b,call=function(a,b) a<b );
     nodepricer=switch(americanOrEuro,euro=function(treeprice,intrinsicprice) {treeprice},
                       american=function(treeprice,intrinsicprice) pmax(treeprice,intrinsicprice));
     findoptionprice<-function(stock,path) {
         result=0;
         for (i in 1:length(path[,1])) {
-            if(isTRUE(all.equal(stock , path[i,1]))) result=path[i,2];
+            if(isTRUE(all.equal(stock , path[i,1]))) {
+                result=path[i,2];
+                break;
+            }
         }
         result;
     }
@@ -103,40 +106,14 @@ flookback<-function(americanOrEuro,putOrCall) {
             optionprices=thisnode[[1]]$path[,2];
             #given one of the pathprices, find the corresponding
             #option price
-            for (i in 1:length(pathprices)) {
-                #what would be the path price if node go up
-                uprice=selector(pathprices[i],upnode[[1]]$stockprice);
-                dprice=selector(pathprices[i],downnode[[1]]$stockprice);
-                up=findoptionprice(uprice, upnode[[1]]$path);
-                down=findoptionprice(dprice,downnode[[1]]$path);
-              #  up=upnode[[1]]$path[(abs(upnode[[1]]$path[,1]-uprice)/uprice<precision),2];
-              #  if(length(up)==0) up=0;
-              #  down=downnode[[1]]$path[(abs(downnode[[1]]$path[,1]-dprice)/dprice<precision),2];
-              #  if(length(down)==0) down=0;
-                if(down==0 && up==0) {
-                    browser()
-                    cat("Something wrong!!!!!!!!!!! while trying
-                        to calculate",pathprices[i]," with
-                        uprice=",uprice, " and dprice=",dprice,"\n")
-
-                    print(thisnode)
-                    print(upnode)
-                    print(downnode)
-                }
-                treeprice=(up*p+down*(1-p))*discount;
-                #cat("up=",up,"down=",down)
-                #American option
-                #thisnode[[1]]$path[i,2]=max(treeprice,thisnode[[1]]$path[i,2]);
-                #print(thisnode);
-                #print('------');
-                #print(upnode);
-                #print('------');
-                #print(downnode);
-                #print('------');
-                #cat("loop: ",i,thisnode[[1]]$path[i,1],treeprice,"\n");
-                thisnode[[1]]$path[i,2]=nodepricer(treeprice,thisnode[[1]]$path[i,2]);
-            }
-            #print('++++++++++++++++++++++++++++++++++++++');
+            uprice=selector(pathprices,upnode[[1]]$stockprice);
+            downprice=selector(pathprices,downnode[[1]]$stockprice);
+            up=apply(matrix(uprice,ncol=1),1,findoptionprice,upnode[[1]]$path);
+            #cat('uprice=',uprice,'\n','upnode=',upnode[[1]]$path,'\n','up=',up,'\n');
+            down=apply(matrix(downprice,ncol=1),1,findoptionprice,downnode[[1]]$path);
+            treeprice=(up*p+down*(1-p))*discount;
+            thisnode[[1]]$path[,2]=nodepricer(treeprice,thisnode[[1]]$path[,2]);
+            
             thisnode;
         }
         switch(mode,genpath=genpath(thisnode,upnode,downnode),calcpath=calcpath(thisnode,upnode,downnode,p,discount));
